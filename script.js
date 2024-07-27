@@ -9,15 +9,11 @@ let btnStop = document.getElementById('btnStop')
 let btnStart = document.getElementById('btnStart')
 let imgCar = document.getElementById('imgCar')
 
-
-
-let values = [
-    '😃', '😇', '😋', '😂', '😎', '😭', '😡'
-]
+let values = [  '😃', '😇', '😋', '😂', '😎', '😭', '😡' ]
 
 function getRandomValue() {
-    
-    return values[Math.floor(Math.random() * 7)]
+    // HERE
+    return values[Math.floor(Math.random() * 7)];
 }
 
 let animationId;
@@ -66,26 +62,34 @@ inpSpeed.onchange = function (ev) {
     
 }
 
-btnStop.onclick = function(){
+btnStop.onclick = function() {
     promiseObj().then(()=>{
-if(value1.innerText ===value2.innerText && value1.innerText ===value3.innerText){
-                    setTimeout(function(){alert('Winner')},200)
+if (value1.innerText === value2.innerText && value1.innerText === value3.innerText) {
+                    setTimeout(function(){alert('Winner')
+                    btnStart.onclick() },200)
          }
          else{
-            setTimeout(function(){alert('Better Luck Next Time')},200)
+            setTimeout(function(){alert('Better Luck Next Time')
+                btnStart.onclick() },200)
+                // added onclick to prevent default action when user clicks stop button
          }
     })
 }
-var promiseObj = ()=>{
+//  edited Code  
 
+var promiseObj = ()=>{
     return  new Promise((resolve , reject)=>{
         document.documentElement.style.setProperty('--speed',0)
         inpSpeed.disabled = true; 
         updateAnimation(0)
         clearInterval(animationId)
+        
+        document.querySelectorAll('.slot > .value').forEach(element => {
+            element.style.animationName = 'none';
+        });
+        
         resolve();
     })
-
 }
 
 
@@ -93,4 +97,8 @@ btnStart.onclick = function (){
     inpSpeed.disabled = false; 
     document.documentElement.style.setProperty('--speed',speed)
     updateAnimation(speed)
+
+    document.querySelectorAll('.slot > .value').forEach(element => {
+        element.style.animationName = 'slotspin';
+    });
 }
